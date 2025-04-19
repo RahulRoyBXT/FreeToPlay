@@ -1,13 +1,11 @@
 'use client'
 import { Progress } from '@/components/ui/progress'
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 
 const Loading = () => {
   const [progress, setProgress] = useState(0)
   const [loadingText, setLoadingText] = useState('Loading game details')
   const [readyToTransition, setReadyToTransition] = useState(false)
-  const router = useRouter()
   
   useEffect(() => {
     const texts = [
@@ -26,7 +24,7 @@ const Loading = () => {
     }, minLoadTime);
     
     // Progress animation logic
-    let interval: NodeJS.Timeout = setInterval(() => {
+    const interval = setInterval(() => {
       setProgress(prevProgress => {
         // Update loading text at certain progress points
         if (prevProgress === 25) setLoadingText(texts[1])

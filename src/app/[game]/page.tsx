@@ -1,12 +1,7 @@
 import GamePage from '@/components/GamePage';
-import { Game, SingleGame, SystemReq } from "@/lib/types";
 
 async function getGameData(id: string) {
   try {
-    // Add an artificial delay to ensure loading state is visible
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Server-side fetch directly from the API
     const response = await fetch(`https://www.freetogame.com/api/game?id=${id}`, { 
       cache: 'no-store'
     });
@@ -26,6 +21,5 @@ export default async function GameDetailPage({ params }: { params: { game: strin
   // Fetch game data on the server
   const gameData = await getGameData(params.game);
   
-  // Pass the data to the GamePage component
   return <GamePage id={params.game} gameData={gameData} />;
 }

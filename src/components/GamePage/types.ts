@@ -19,8 +19,13 @@ export interface GameHeaderProps {
   router: AppRouterInstance;
 }
 
+export interface Screenshot {
+  id: number;
+  image: string;
+}
+
 export interface ScreenshotShowcaseProps {
-  screenshots: any[];
+  screenshots: Screenshot[];
   thumbnail: string;
   title: string;
   activeScreenshot: number;
@@ -36,7 +41,7 @@ export interface GameStatsProps {
 }
 
 export interface SystemRequirementsProps {
-  requirements: any;
+  requirements: SystemReq;
 }
 
 export interface SystemRequirementItemProps {
@@ -46,7 +51,7 @@ export interface SystemRequirementItemProps {
 }
 
 export interface ScreenshotGridProps {
-  screenshots: any[];
+  screenshots: Screenshot[];
   title: string;
   activeScreenshot: number;
   setActiveScreenshot: Dispatch<SetStateAction<number>>;

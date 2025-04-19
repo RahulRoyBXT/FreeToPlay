@@ -1,15 +1,14 @@
 'use client'
 import { GameCard } from '@/components/GameCard';
 import { Game } from '@/lib/types';
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loading from './loading';
 import NavBar from '@/components/NavBar';
-// import Loading from './loading';
 
 const Home = () => {
   const [games, setGames] = useState<Game[]>([])
   const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError]= useState<string>('')
+  
   useEffect(() => {
     const fetchGames = async () => {
       try {
@@ -18,9 +17,9 @@ const Home = () => {
         setGames(data)
       } catch (error: unknown) {
         if(error instanceof Error){
-          setError(error.message)
+          console.error(error.message)
         } else {
-          setError('Unexpected Error')
+          console.error('Unexpected Error')
         }
       } finally {
         setLoading(false)
