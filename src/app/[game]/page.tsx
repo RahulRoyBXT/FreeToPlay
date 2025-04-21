@@ -1,25 +1,42 @@
-import GamePage from '@/components/GamePage';
+import GamePage from "@/components/GamePage";
+import { GameIdTypes } from "@/components/GamePage/types";
+import type { Metadata } from "next";
 
-async function getGameData(id: string) {
-  try {
-    const response = await fetch(`https://www.freetogame.com/api/game?id=${id}`, { 
-      cache: 'no-store'
-    });
+async function getGameData(id: string): Promise<GameIdTypes> {
+    const BaseUrl = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASE_URL : 'http://localhost:3000'
+
+    const response = await fetch(`${BaseUrl}/api/v1/game/${id}`);
     
     if (!response.ok) {
-      throw new Error('Failed to fetch game data');
+        throw new Error(`Failed to fetch game data: ${response.status}`);
     }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching game data:', error);
-    throw error;
-  }
+
+    const result = await response.json();
+    return result;
 }
 
-export default async function GameDetailPage({ params }: { params: { game: string } }) {
+// This type is crucial for Next.js to understand the params structure
+type GamePageParams = {
+  params: Promise<{
+    game: string;
+  }>;
+};
+
+// Define proper metadata function to help with typing
+export async function generateMetadata({ params }: GamePageParams): Promise<Metadata> {
+  const resolvedParams = await params;
+  return {
+    title: `Game: ${resolvedParams.game}`,
+  };
+}
+
+// Proper typing with the same interface
+export default async function GameDetailPage({ params }: GamePageParams) {
+  const resolvedParams = await params;
+  const { game } = resolvedParams;
+
   // Fetch game data on the server
-  const gameData = await getGameData(params.game);
+  const gameData = await getGameData(game);
   
-  return <GamePage id={params.game} gameData={gameData} />;
+  return <GamePage id={game} gameData={gameData} />;
 }

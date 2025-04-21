@@ -11,8 +11,9 @@ const Home = () => {
   
   useEffect(() => {
     const fetchGames = async () => {
+      const BaseUrl = process.env.NODE_ENV === 'production'? process.env.NEXT_PUBLIC_BASE_URL : 'http://localhost:3000'
       try {
-        const res = await fetch('/api/games')
+        const res = await fetch(`${BaseUrl}/api/v1/games`)
         const data = await res.json()
         setGames(data)
       } catch (error: unknown) {

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useMemo, useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaGamepad, FaDesktop, FaChrome } from "react-icons/fa";
 import { DirectionAwareHover } from "./ui/direction-aware-hover";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useAppSelector } from "@/lib/redux/hooks";
 
 interface GameCardProps {
@@ -14,6 +14,7 @@ interface GameCardProps {
 
 export const GameCard: React.FC<GameCardProps> = ({ games }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [animateCards, setAnimateCards] = useState(false);
   const [hoverCard, setHoverCard] = useState<number | null>(null);
@@ -88,9 +89,10 @@ export const GameCard: React.FC<GameCardProps> = ({ games }) => {
     return `${(index % perPage) * 0.05}s`;
   };
 
-  const handleGameClick = (gameId: number, e: React.MouseEvent) => {
-    e.preventDefault();
-    router.push(`/${gameId}`);
+  // Prefetch game data when hovering over a card for faster loading
+  const handlePrefetchGame = (gameId: number) => {
+    router.prefetch(`/${gameId}`);
+    setHoverCard(gameId);
   };
 
   return (
@@ -132,8 +134,7 @@ export const GameCard: React.FC<GameCardProps> = ({ games }) => {
             <Link
               href={`/${game.id}`}
               key={game.id}
-              onClick={(e) => handleGameClick(game.id, e)}
-              onMouseEnter={() => setHoverCard(game.id)}
+              onMouseEnter={() => handlePrefetchGame(game.id)}
               onMouseLeave={() => setHoverCard(null)}
               className={`block group relative min-h-[30dvh] bg-gray-800/80 rounded-xl overflow-hidden 
                         backdrop-blur-sm border border-gray-700 transition-all duration-300

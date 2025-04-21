@@ -12,10 +12,6 @@ export async function GET(request: Request) {
 
     const response = await fetch(`https://www.freetogame.com/api/game?id=${id}`);
     
-    if (!response.ok) {
-      throw new Error('Failed to fetch game data');
-    }
-    
     const gameData = await response.json();
     return NextResponse.json(gameData);
   } catch (error) {

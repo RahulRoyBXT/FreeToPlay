@@ -13,6 +13,7 @@ const MainGamePage: React.FC<MainGameType> = ({ data }) => {
   const [activeScreenshot, setActiveScreenshot] = useState<number>(0);
   const router = useRouter();
 
+
   // Cycle through screenshots every 8 seconds
   useEffect(() => {
     // Check if screenshots array exists and has items

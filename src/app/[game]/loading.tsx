@@ -55,7 +55,6 @@ const Loading = () => {
   useEffect(() => {
     if (progress === 100 && readyToTransition) {
       // We're ready to show the actual content
-      console.log("Game detail loading animation complete");
     }
   }, [progress, readyToTransition]);
   

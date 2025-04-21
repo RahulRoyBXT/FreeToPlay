@@ -1,5 +1,4 @@
 import { Game } from "@/lib/types";
-import { NextRequest } from "next/server";
 
 export async function GET() {
     const response = await fetch('https://www.freetogame.com/api/games')

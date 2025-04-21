@@ -1,14 +1,44 @@
-import { Game, SingleGame, SystemReq } from "@/lib/types";
 import { Dispatch, SetStateAction } from "react";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
+export interface GameIdTypes {
+  id:                          number;
+  title:                       string;
+  thumbnail:                   string;
+  status:                      string;
+  short_description:           string;
+  description:                 string;
+  game_url:                    string;
+  genre:                       string;
+  platform:                    string;
+  publisher:                   string;
+  developer:                   string;
+  release_date:                string;
+  freetogame_profile_url:      string;
+  minimum_system_requirements: MinimumSystemRequirements;
+  screenshots:                 Screenshot[];
+}
+
+export interface MinimumSystemRequirements {
+  os:        string;
+  processor: string;
+  memory:    string;
+  graphics:  string;
+  storage:   string;
+}
+
+export interface Screenshot {
+  id:    number;
+  image: string;
+}
+
 export interface GamePageProps {
   id: string;
-  gameData: Game & SystemReq & SingleGame & {description: string};
+  gameData: GameIdTypes;
 }
 
 export interface MainGameType {
-  data: Game & SystemReq & SingleGame & {description: string};
+  data: GameIdTypes;
 }
 
 export interface GameHeaderProps {
@@ -17,11 +47,6 @@ export interface GameHeaderProps {
   linkInfo: boolean;
   setLinkInfo: Dispatch<SetStateAction<boolean>>;
   router: AppRouterInstance;
-}
-
-export interface Screenshot {
-  id: number;
-  image: string;
 }
 
 export interface ScreenshotShowcaseProps {
@@ -33,15 +58,15 @@ export interface ScreenshotShowcaseProps {
 }
 
 export interface GameInformationProps {
-  data: Game & SystemReq & SingleGame & {description: string};
+  data: GameIdTypes;
 }
 
 export interface GameStatsProps {
-  data: Game & SystemReq & SingleGame;
+  data: GameIdTypes;
 }
 
 export interface SystemRequirementsProps {
-  requirements: SystemReq;
+  requirements: MinimumSystemRequirements;
 }
 
 export interface SystemRequirementItemProps {
